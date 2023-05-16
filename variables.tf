@@ -85,10 +85,14 @@ variable "load_balancer_security_group_id" {
   type        = string
 }
 
-variable "listener_rule_arn" {
+variable "listener_rule_configuration" {
   default     = null
-  description = "The ARN of an already existing listener rule on the given load balancer arn defined. Required if no lb_configuration has been given"
-  type        = string
+  description = "Listener rule configuration block"
+  type        = object({
+    arn = string
+    host_header = optional(list(string))
+    query_string = optional(list(string))
+  })
 }
 
 variable "public_url" {

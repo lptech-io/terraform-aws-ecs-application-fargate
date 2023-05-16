@@ -59,14 +59,19 @@ module "target_group" {
 }
 
 resource "aws_lb_listener_rule" "public_url_on_443" {
-  listener_arn = var.listener_rule_arn
+  listener_arn = var.listener_rule_configuration.arn
   action {
     type             = "forward"
     target_group_arn = module.target_group.arn
   }
   condition {
-    host_header {
-      values = [var.public_url]
+    dynamic "host_header" {
+      count = var.listener_rule_configuration.host_header != null ? 1 : 0
+      values = var.listener_rule_configuration.host_header
+    }
+    dynamic "query_string " {
+      for_each = var.listener_rule_configuration.query_string
+      value = query_string.value
     }
   }
 }
