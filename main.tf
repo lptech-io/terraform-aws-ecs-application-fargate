@@ -4,6 +4,15 @@ module "repository" {
   repository_name           = lower("${var.repository_prefix}-${each.value.name}")
 }
 
+data "aws_ssm_parameter" "image_arn" {
+  for_each = { for image in var.container_definitions : image.name => image }
+  name = module.repository[image].ssm_active_container_tag
+}
+
+locals {
+  container_definitions = [{ for image in var.var.container_definitions : image.image => merge(image, {image = "${data.data.aws_ssm_parameter.image_arn[image].content}"})}]
+}
+
 resource "aws_ecs_cluster" "cluster" {
   count = var.cluster_arn == null ? 1 : 0
   name = var.cluster_properties.name
@@ -21,7 +30,7 @@ module "ecs_service" {
     min_capacity = var.autoscaling_configuration.min_capacity
   }
   cluster_arn                          = var.cluster_arn != null ? var.cluster_arn : aws_ecs_cluster.cluster[0].id
-  container_definitions                = var.container_definitions
+  container_definitions                = local.container_definitions
   ecr_repository_arns                  = [for repository in module.repository : repository["arn"]]
   execution_role_policies              = var.execution_role_policies
   health_check_grace_period_in_seconds = var.service_configuration.health_check_grace_period_in_seconds
