@@ -74,10 +74,12 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
   }
   dynamic "condition" {
     for_each = var.listener_rule_configuration.query_string != null ? [""] : []
-    dynamic "query_string" {
-      for_each = var.listener_rule_configuration.query_string
-      content {
-        value = query_string.value
+    content {
+      dynamic "query_string" {
+        for_each = var.listener_rule_configuration.query_string
+        content {
+          value = query_string.value
+        }
       }
     }
   }
