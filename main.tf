@@ -12,9 +12,8 @@ data "aws_ssm_parameter" "image_arn" {
 
 locals {
   container_definitions = [
-    for container in var.container_definitions : merge(container,
-      { image = "${data.aws_ssm_parameter.image_arn[container.name].content}"}
-    )]
+    for container in var.container_definitions : merge(container, { image = "${data.aws_ssm_parameter.image_arn[container.name].value}"} )
+  ]
 }
 
 resource "aws_ecs_cluster" "cluster" {

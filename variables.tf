@@ -41,7 +41,7 @@ variable "container_definitions" {
         config-file-value       = string
       })
     }))
-    image = string
+    image = optional(string)
     logConfiguration = optional(object({
       logDriver = string
       options   = optional(map(string))
