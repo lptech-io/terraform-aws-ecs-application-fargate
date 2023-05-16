@@ -16,8 +16,8 @@
 
 | Name | Source | Version |
 |------|--------|---------|
-| <a name="module_ecs_service"></a> [ecs\_service](#module\_ecs\_service) | git::https://terraform-token:#TERRAFORM_TOKEN#@gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecs-fargate.git | n/a |
-| <a name="module_repository"></a> [repository](#module\_repository) | git::https://terraform-token:#TERRAFORM_TOKEN#@gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecr.git | n/a |
+| <a name="module_ecs_service"></a> [ecs\_service](#module\_ecs\_service) | git::https://gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecs-fargate.git | n/a |
+| <a name="module_repository"></a> [repository](#module\_repository) | git::https://gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecr.git | n/a |
 | <a name="module_target_group"></a> [target\_group](#module\_target\_group) | ./modules/target-group | n/a |
 
 ## Resources
