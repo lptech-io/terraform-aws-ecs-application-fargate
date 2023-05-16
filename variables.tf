@@ -86,10 +86,6 @@ variable "load_balancer_security_group_id" {
 }
 
 variable "listener_rule_configuration" {
-  default     = {
-    host_header = null
-    query_string = null
-  }
   description = "Listener rule configuration block"
   type        = object({
     arn = string
