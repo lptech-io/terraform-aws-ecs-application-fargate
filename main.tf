@@ -65,7 +65,7 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
     target_group_arn = module.target_group.arn
   }
   dynamic "condition" {
-    for_each = var.listener_rule_configuration.host_header != null ? 1 : 0
+    for_each = var.listener_rule_configuration.host_header != null ? [""] : []
     content {
       host_header {
         values = var.listener_rule_configuration.host_header
@@ -73,7 +73,7 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
     }
   }
   dynamic "condition" {
-    for_each = var.listener_rule_configuration.query_string != null ? 1 : 0
+    for_each = var.listener_rule_configuration.query_string != null ? [""] : []
     dynamic "query_string" {
       for_each = var.listener_rule_configuration.query_string
       content {
