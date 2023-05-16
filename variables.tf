@@ -95,11 +95,6 @@ variable "listener_rule_configuration" {
   })
 }
 
-variable "public_url" {
-  description = "Public URL for the service"
-  type        = string
-}
-
 variable "repository_prefix" {
   description = "ECR repository prefix"
   type        = string
