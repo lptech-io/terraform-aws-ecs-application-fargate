@@ -5,12 +5,16 @@ module "repository" {
 }
 
 data "aws_ssm_parameter" "image_arn" {
+  depends_on = [module.repository]
   for_each = { for image in var.container_definitions : image.name => image }
   name = module.repository[each.value.name].ssm_active_container_tag
 }
 
 locals {
-  container_definitions = [{ for image in var.container_definitions : image.image => merge(image, {image = "${data.aws_ssm_parameter.image_arn[image.name].content}"})}]
+  container_definitions = [
+    for container in var.container_definitions : merge(container,
+      { image = "${data.aws_ssm_parameter.image_arn[container.name].content}"}
+    )]
 }
 
 resource "aws_ecs_cluster" "cluster" {
