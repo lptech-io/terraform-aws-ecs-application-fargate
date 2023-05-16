@@ -67,11 +67,15 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
   condition {
     dynamic "host_header" {
       for_each = var.listener_rule_configuration.host_header
-      values = var.listener_rule_configuration.host_header
+      content {
+        values = var.listener_rule_configuration.host_header
+      }
     }
     dynamic "query_string" {
       for_each = var.listener_rule_configuration.query_string
-      value = query_string.value
+      content {
+        value = query_string.value
+      }
     }
   }
 }
