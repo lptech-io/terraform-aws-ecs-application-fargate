@@ -64,13 +64,16 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
     type             = "forward"
     target_group_arn = module.target_group.arn
   }
-  condition {
-    dynamic "host_header" {
-      for_each = var.listener_rule_configuration.host_header
-      content {
+  dynamic "condition" {
+    for_each = var.listener_rule_configuration.host_header != null ? 1 : 0
+    content {
+      host_header {
         values = var.listener_rule_configuration.host_header
       }
     }
+  }
+  dynamic "condition" {
+    for_each = var.listener_rule_configuration.query_string != null ? 1 : 0
     dynamic "query_string" {
       for_each = var.listener_rule_configuration.query_string
       content {
