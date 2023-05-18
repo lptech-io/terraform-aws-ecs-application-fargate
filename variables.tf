@@ -90,6 +90,7 @@ variable "listener_rule_configuration" {
   type        = object({
     arn = string
     host_header = optional(list(string))
+    paths = optional(list(string))
     query_string = optional(list(string))
   })
 }
