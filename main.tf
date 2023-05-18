@@ -75,7 +75,7 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
   dynamic "condition" {
     for_each = var.listener_rule_configuration.paths != null ? [""] : []
     content {
-      host_header {
+      path_pattern {
         values = var.listener_rule_configuration.paths
       }
     }
