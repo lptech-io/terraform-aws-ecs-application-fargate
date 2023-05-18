@@ -9,7 +9,7 @@ variable "health_check" {
   type = object({
     enabled             = optional(bool, true)
     healthy_threshold   = optional(number, 2)
-    interval            = optional(number, 10)
+    interval            = optional(number, 30)
     matcher             = optional(string, "200")
     path                = optional(string, "/healthy")
     port                = optional(number, 80)
