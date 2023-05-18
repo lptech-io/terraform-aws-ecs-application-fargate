@@ -13,7 +13,6 @@ resource "aws_lb_target_group" "target_group" {
   load_balancing_algorithm_type = "least_outstanding_requests"
   port                          = 80
   protocol                      = "HTTP"
-  protocol_version              = "HTTP2"
   target_type                   = "ip"
   vpc_id                        = var.vpc_id
 
