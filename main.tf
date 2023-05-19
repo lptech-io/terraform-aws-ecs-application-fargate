@@ -51,9 +51,7 @@ module "ecs_service" {
 
 module "target_group" {
   source = "./modules/target-group"
-  health_check = {
-    port = var.service_configuration.entrypoint_container_port
-  }
+  health_check = var.target_group_health_check
   target_group_name = var.target_group_name
   vpc_id            = var.vpc_id
 }

@@ -126,6 +126,21 @@ variable "target_group_name" {
   type        = string
 }
 
+variable "target_group_health_check" {
+  description = "Target group health check configuration block"
+  type = object({
+    enabled             = optional(bool, true)
+    healthy_threshold   = optional(number, 2)
+    interval            = optional(number, 30)
+    matcher             = optional(string, "200")
+    path                = optional(string, "/healthy")
+    port                = optional(number, 80)
+    protocol            = optional(string, "HTTP")
+    timeout             = optional(number, 5)
+    unhealthy_threshold = optional(number, 5)
+  })
+}
+
 variable "task_role_policies" {
   default     = []
   description = "AWS IAM policies that the application might need"
