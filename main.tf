@@ -1,6 +1,6 @@
 module "repository" {
   for_each        = { for image in var.container_definitions : image.name => image }
-  source          = "git::https://gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecr.git"
+  source          = "lptech-io/ecr-repository/aws"
   repository_name = lower("${var.repository_prefix}-${each.value.name}")
 }
 
@@ -26,7 +26,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 module "ecs_service" {
-  source = "git::https://gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecs-fargate.git"
+  source = "lptech-io/ecs-service-fargate/aws"
 
   autoscaling_configuration = {
     max_capacity = var.autoscaling_configuration.max_capacity
