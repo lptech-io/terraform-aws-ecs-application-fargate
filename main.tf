@@ -1,24 +1,24 @@
 module "repository" {
-  for_each = { for image in var.container_definitions : image.name => image }
-  source = "git::https://gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecr.git"
-  repository_name           = lower("${var.repository_prefix}-${each.value.name}")
+  for_each        = { for image in var.container_definitions : image.name => image }
+  source          = "git::https://gitlab.com/opyn.eu/infrastructure/terraform/library/base-modules/aws/ecr.git"
+  repository_name = lower("${var.repository_prefix}-${each.value.name}")
 }
 
 data "aws_ssm_parameter" "image_arn" {
   depends_on = [module.repository]
-  for_each = { for image in var.container_definitions : image.name => image }
-  name = module.repository[each.value.name].ssm_active_container_tag
+  for_each   = { for image in var.container_definitions : image.name => image }
+  name       = module.repository[each.value.name].ssm_active_container_tag
 }
 
 locals {
   container_definitions = [
-    for container in var.container_definitions : merge(container, { image = "${data.aws_ssm_parameter.image_arn[container.name].value}"} )
+    for container in var.container_definitions : merge(container, { image = "${data.aws_ssm_parameter.image_arn[container.name].value}" })
   ]
 }
 
 resource "aws_ecs_cluster" "cluster" {
   count = var.cluster_arn == null ? 1 : 0
-  name = var.cluster_properties.name
+  name  = var.cluster_properties.name
   setting {
     name  = "containerInsights"
     value = "enabled"
@@ -50,8 +50,8 @@ module "ecs_service" {
 }
 
 module "target_group" {
-  source = "./modules/target-group"
-  health_check = var.target_group_health_check
+  source            = "./modules/target-group"
+  health_check      = var.target_group_health_check
   target_group_name = var.target_group_name
   vpc_id            = var.vpc_id
 }

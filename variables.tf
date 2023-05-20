@@ -87,10 +87,10 @@ variable "load_balancer_security_group_id" {
 
 variable "listener_rule_configuration" {
   description = "Listener rule configuration block"
-  type        = object({
-    arn = string
-    host_header = optional(list(string))
-    paths = optional(list(string))
+  type = object({
+    arn          = string
+    host_header  = optional(list(string))
+    paths        = optional(list(string))
     query_string = optional(list(string))
   })
 }
