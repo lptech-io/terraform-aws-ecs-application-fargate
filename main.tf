@@ -89,6 +89,15 @@ resource "aws_lb_listener_rule" "public_url_on_443" {
       }
     }
   }
+  dynamic "condition" {
+    for_each = var.listener_rule_configuration.headers
+    content {
+      http_header {
+        http_header_name = condition.value.name
+        values           = condition.value.values
+      }
+    }
+  }
 }
 
 resource "aws_security_group_rule" "ingress_from_load_balancer" {
