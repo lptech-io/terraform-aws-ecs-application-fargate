@@ -14,6 +14,7 @@ variable "cluster_arn" {
 }
 
 variable "cluster_properties" {
+  default     = null
   description = "Cluster configuration block"
   type = object({
     id              = optional(string)
