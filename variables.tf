@@ -100,6 +100,12 @@ variable "listener_rule_configuration" {
   })
 }
 
+variable "repository_mutability" {
+  default = null
+  description = "(optional) describe your variable"
+  type = string
+}
+
 variable "repository_prefix" {
   description = "ECR repository prefix"
   type        = string

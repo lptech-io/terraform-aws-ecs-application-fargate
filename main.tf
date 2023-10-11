@@ -2,6 +2,7 @@ module "repository" {
   for_each        = { for image in var.container_definitions : image.name => image }
   source          = "lptech-io/ecr-repository/aws"
   repository_name = lower("${var.repository_prefix}-${each.value.name}")
+  image_tag_mutability = var.repository_mutability
 }
 
 data "aws_ssm_parameter" "image_arn" {
