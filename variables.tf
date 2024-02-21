@@ -101,9 +101,9 @@ variable "listener_rule_configuration" {
 }
 
 variable "repository_mutability" {
-  default = null
+  default     = null
   description = "(optional) describe your variable"
-  type = string
+  type        = string
 }
 
 variable "repository_prefix" {
