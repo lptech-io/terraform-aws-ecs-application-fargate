@@ -132,6 +132,12 @@ variable "service_configuration" {
   }
 }
 
+variable "ssm_parameter_name" {
+  default     = ""
+  description = "Name of SSM parameter where store container tag image"
+  type        = string
+}
+
 variable "target_group_name" {
   description = "Target group name"
   type        = string

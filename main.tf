@@ -3,6 +3,7 @@ module "repository" {
   source               = "lptech-io/ecr-repository/aws"
   repository_name      = lower("${var.repository_prefix}-${each.value.name}")
   image_tag_mutability = var.repository_mutability
+  ssm_parameter_name   = var.ssm_parameter_name != "" ? var.ssm_parameter_name : ""
 }
 
 data "aws_ssm_parameter" "image_arn" {
