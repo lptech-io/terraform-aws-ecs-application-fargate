@@ -2,10 +2,9 @@ terraform {
   required_providers {
     aws = {
       source  = "hashicorp/aws"
-      version = "~> 4.50" # Bugfixes for protocol_version and error handling on existing aws_lb_target_group
     }
   }
-  required_version = "~> 1.3"
+  required_version = ">= 1.3"
 }
 
 resource "aws_lb_target_group" "target_group" {
