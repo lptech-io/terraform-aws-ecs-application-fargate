@@ -1,20 +1,22 @@
 module "repository" {
-  for_each             = { for image in var.container_definitions : image.name => image }
+  for_each             = { for container in var.container_definitions : container.name => container if container.image == null}
   source               = "lptech-io/ecr-repository/aws"
+  version              = ">= 1.2.0"
   repository_name      = lower("${var.repository_prefix}-${each.value.name}")
-  image_tag_mutability = var.repository_mutability
-  ssm_parameter_name   = var.ssm_parameter_name != "" ? var.ssm_parameter_name : ""
+  lifecycle_rule       = var.repositories_details[each.value.name].images_to_retain
+  image_tag_mutability = var.repositories_details[each.value.name].mutability
+  ssm_parameter_name   = var.repositories_details[each.value.name].mutability.ssm_parameter_name
 }
 
 data "aws_ssm_parameter" "image_arn" {
   depends_on = [module.repository]
-  for_each   = { for image in var.container_definitions : image.name => image }
+  for_each   = { for container in var.container_definitions : container.name => container if container.image == null}
   name       = module.repository[each.value.name].ssm_active_container_tag
 }
 
 locals {
   container_definitions = [
-    for container in var.container_definitions : merge(container, { image = "${data.aws_ssm_parameter.image_arn[container.name].value}" })
+    for container in var.container_definitions : merge(container, { image = container.image == null ? "${data.aws_ssm_parameter.image_arn[container.name].value}" : container.image })
   ]
 }
 
@@ -23,7 +25,7 @@ resource "aws_ecs_cluster" "cluster" {
   name  = var.cluster_properties.name
   setting {
     name  = "containerInsights"
-    value = "enabled"
+    value = var.cluster_properties.metrics_enabled ? "enabled" : "disabled"
   }
 }
 
