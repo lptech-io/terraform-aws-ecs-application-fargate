@@ -5,7 +5,7 @@ module "repository" {
   repository_name      = lower("${var.repository_prefix}-${each.value.name}")
   lifecycle_rule       = var.repositories_details[each.value.name].lifecycle_rule
   image_tag_mutability = var.repositories_details[each.value.name].mutability
-  ssm_parameter_name   = var.repositories_details[each.value.name].mutability.ssm_parameter_name
+  ssm_parameter_name   = var.repositories_details[each.value.name].ssm_parameter_name
 }
 
 data "aws_ssm_parameter" "image_arn" {

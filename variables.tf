@@ -111,16 +111,6 @@ variable "repositories_details" {
     }))
     ssm_parameter_name = optional(string, "")
   }))
-  validation {
-    condition = contains(["IMMUTABLE", "MUTABLE"], var.repositories_details.mutability)
-    error_message = "Mutability for an ECR should be: ['IMMUTABLE', 'MUTABLE']"
-  }
-}
-
-variable "repository_mutability" {
-  default     = null
-  description = "(optional) describe your variable"
-  type        = string
 }
 
 variable "repository_prefix" {
