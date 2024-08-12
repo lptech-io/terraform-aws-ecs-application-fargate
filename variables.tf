@@ -105,7 +105,10 @@ variable "repositories_details" {
   description = "ECR configuration for containers"
   type = map(object({
     mutability = optional(string, "IMMUTABLE")
-    images_to_retain = optional(number, 10)
+    lifecycle_rule = optional(object({
+      enable = optional(bool, true)
+      images_to_retain = optional(number, 10)
+    }))
     ssm_parameter_name = optional(string, "")
   }))
   validation {

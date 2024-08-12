@@ -3,7 +3,7 @@ module "repository" {
   source               = "lptech-io/ecr-repository/aws"
   version              = ">= 1.2.0"
   repository_name      = lower("${var.repository_prefix}-${each.value.name}")
-  lifecycle_rule       = var.repositories_details[each.value.name].images_to_retain
+  lifecycle_rule       = var.repositories_details[each.value.name].lifecycle_rule
   image_tag_mutability = var.repositories_details[each.value.name].mutability
   ssm_parameter_name   = var.repositories_details[each.value.name].mutability.ssm_parameter_name
 }
