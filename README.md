@@ -16,7 +16,7 @@
 | Name | Source | Version |
 |------|--------|---------|
 | <a name="module_ecs_service"></a> [ecs\_service](#module\_ecs\_service) | lptech-io/ecs-service-fargate/aws | n/a |
-| <a name="module_repository"></a> [repository](#module\_repository) | lptech-io/ecr-repository/aws | n/a |
+| <a name="module_repository"></a> [repository](#module\_repository) | lptech-io/ecr-repository/aws | >= 1.2.0 |
 | <a name="module_target_group"></a> [target\_group](#module\_target\_group) | ./modules/target-group | n/a |
 
 ## Resources
@@ -40,6 +40,7 @@
 | <a name="input_listener_rule_configuration"></a> [listener\_rule\_configuration](#input\_listener\_rule\_configuration) | Listener rule configuration block | <pre>object({<br>    arn          = string<br>    host_header  = optional(list(string))<br>    paths        = optional(list(string))<br>    query_string = optional(list(string))<br>    headers = optional(list(object({<br>      name   = string<br>      values = list(string)<br>    })))<br>  })</pre> | n/a | yes |
 | <a name="input_load_balancer_arn"></a> [load\_balancer\_arn](#input\_load\_balancer\_arn) | The ARN of an already existing load balancer. Required if no lb\_configuration has been given | `string` | `null` | no |
 | <a name="input_load_balancer_security_group_id"></a> [load\_balancer\_security\_group\_id](#input\_load\_balancer\_security\_group\_id) | Security group ID if lb\_arn variable is defined | `string` | `null` | no |
+| <a name="input_repositories_details"></a> [repositories\_details](#input\_repositories\_details) | ECR configuration for containers | <pre>map(object({<br>    mutability = optional(string, "IMMUTABLE")<br>    images_to_retain = optional(number, 10)<br>    ssm_parameter_name = optional(string, "")<br>  }))</pre> | `{}` | no |
 | <a name="input_repository_mutability"></a> [repository\_mutability](#input\_repository\_mutability) | (optional) describe your variable | `string` | `null` | no |
 | <a name="input_repository_prefix"></a> [repository\_prefix](#input\_repository\_prefix) | ECR repository prefix | `string` | n/a | yes |
 | <a name="input_service_configuration"></a> [service\_configuration](#input\_service\_configuration) | The ECS service configuration block | <pre>object({<br>    cpu                                  = optional(number, 1024)<br>    entrypoint_container_name            = string<br>    entrypoint_container_port            = number<br>    health_check_grace_period_in_seconds = optional(number, 60)<br>    memory                               = optional(number, 2048)<br>    name                                 = string<br>    subnets                              = list(string)<br>  })</pre> | n/a | yes |
