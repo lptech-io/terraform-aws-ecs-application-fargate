@@ -38,19 +38,23 @@ module "ecs_service" {
   }
   cluster_arn                          = var.cluster_arn != null ? var.cluster_arn : aws_ecs_cluster.cluster[0].id
   container_definitions                = local.container_definitions
+  cpu                                  = var.service_configuration.cpu
   ecr_repository_arns                  = [for repository in module.repository : repository["arn"]]
   execution_role_policies              = var.execution_role_policies
+  extra_target_groups                  = var.extra_target_groups
   health_check_grace_period_in_seconds = var.service_configuration.health_check_grace_period_in_seconds
   load_balancer_arn                    = var.load_balancer_arn
+  memory                               = var.service_configuration.memory
   service_name                         = var.service_configuration.name
   subnets                              = var.service_configuration.subnets
   task_definition = {
     entrypoint_container_name = var.service_configuration.entrypoint_container_name
     entrypoint_container_port = var.service_configuration.entrypoint_container_port
   }
-  target_group_arn   = module.target_group.arn
-  task_role_policies = var.task_role_policies
-  vpc_id             = var.vpc_id
+  target_group_arn                   = module.target_group.arn
+  task_role_extra_allowed_principals = var.task_role_extra_allowed_principals
+  task_role_policies                 = var.task_role_policies
+  vpc_id                             = var.vpc_id
 }
 
 module "target_group" {

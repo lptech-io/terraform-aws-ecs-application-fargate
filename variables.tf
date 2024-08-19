@@ -74,6 +74,12 @@ variable "execution_role_policies" {
   }))
 }
 
+variable "extra_target_groups" {
+  default     = []
+  description = "Extra target groups, if needed"
+  type        = list(string)
+}
+
 variable "load_balancer_arn" {
   default     = null
   description = "The ARN of an already existing load balancer. Required if no lb_configuration has been given"
@@ -162,6 +168,18 @@ variable "target_group_health_check" {
     protocol            = optional(string, "HTTP")
     timeout             = optional(number, 5)
     unhealthy_threshold = optional(number, 5)
+  })
+}
+
+variable "task_role_extra_allowed_principals" {
+  default = {
+    aws      = []
+    services = []
+  }
+  description = "Extra allowed principals for ECS task role"
+  type = object({
+    aws      = optional(list(string))
+    services = optional(list(string))
   })
 }
 
